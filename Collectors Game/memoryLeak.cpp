@@ -23,7 +23,7 @@ HRESULT memoryLeak::init()
 	delete[] test;
 
 	//찾으면 알려준다
-	_crtBreakAlloc;
+	//_crtBreakAlloc;
 
 	//덤프메모리 새는걸 감지해준다
 	_CrtDumpMemoryLeaks();

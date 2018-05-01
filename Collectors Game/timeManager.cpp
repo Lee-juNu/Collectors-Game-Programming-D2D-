@@ -65,10 +65,17 @@ void timeManager::render(HDC hdc)
 	}
 #else
 	{
+		D2DFontChange(L"¸íÁ¶", 12);
+		textFormat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_TRAILING);
 		swprintf_s(str, 128, L"framePerSec (FPS) : %d", _timer->getFrameRate());
-		D2DWrite(str, D2DRt, WINSIZEX - 200, 0);
-		//wsprintf(str, "framePerSec (FPS) : %d", _timer->getFrameRate());
-		//TextOut(hdc, 0, 0, str, strlen(str));
+		D2DWrite(str, D2DRt, 0, 0, WINSIZEX, WINSIZEY);
+
+		swprintf_s(str, 128, L"worldTime : %f", _timer->getWorldTime());
+		D2DWrite(str, D2DRt, 0, 20, WINSIZEX, WINSIZEY);
+
+		swprintf_s(str, 128, L"elapsedTime : %f", _timer->getElapsedTime());
+		D2DWrite(str, D2DRt, 0, 40, WINSIZEX, WINSIZEY);
+		textFormat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_LEADING);
 	}
 #endif
 }

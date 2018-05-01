@@ -57,13 +57,15 @@ void tileMap::tilesDraw()
 		case MAP_WATER:
 			keyName = "Å¸ÀÏ3";
 
-			IMAGEMANAGER->D2DGifFrameRender(
-				keyName, _rtTile,
-				_tiles[i].rc.left,
-				_tiles[i].rc.top,
-				_tiles[i].terrainFrameX,
-				_tiles[i].terrainFrameY, _tiles[i].gifFrame);
-
+			if (_currentSelect != SEL_DELOBJ)
+			{
+				IMAGEMANAGER->D2DGifFrameRender(
+					keyName, _rtTile,
+					_tiles[i].rc.left,
+					_tiles[i].rc.top,
+					_tiles[i].terrainFrameX,
+					_tiles[i].terrainFrameY, _tiles[i].gifFrame);
+			}
 			if (_tiles[i].obj != OBJ_NONE)
 			{
 				IMAGEMANAGER->D2DGifFrameRender(
@@ -82,13 +84,15 @@ void tileMap::tilesDraw()
 		if (_tiles[i].mapMode == MAP_WATER) continue;
 
 
-		IMAGEMANAGER->D2DFrameRender(
-			keyName, _rtTile,
-			_tiles[i].rc.left,
-			_tiles[i].rc.top,
-			_tiles[i].terrainFrameX,
-			_tiles[i].terrainFrameY);
-
+		if (_currentSelect != SEL_DELOBJ)
+		{
+			IMAGEMANAGER->D2DFrameRender(
+				keyName, _rtTile,
+				_tiles[i].rc.left,
+				_tiles[i].rc.top,
+				_tiles[i].terrainFrameX,
+				_tiles[i].terrainFrameY);
+		}
 		if (_tiles[i].obj != OBJ_NONE)
 		{
 			IMAGEMANAGER->D2DFrameRender(

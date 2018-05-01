@@ -23,8 +23,10 @@ HRESULT D2DCreateCompatibleRt(ID2D1BitmapRenderTarget* target);
 //다이렉트 2D 함수
 extern ID2D1Factory*					D2DFactory;
 extern ID2D1HwndRenderTarget*			D2DRt;
-extern ID2D1DCRenderTarget*				Rts;
-extern ID2D1BitmapRenderTarget*			BRt;
+
+
+
+
 
 extern IWICImagingFactory*				WICFactory;
 extern IWICFormatConverter*				ConvertedScrBmp;

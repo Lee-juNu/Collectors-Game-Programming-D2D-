@@ -159,6 +159,8 @@ public:
 	void smTileChange();
 	void smSpeedSet();
 
+	void delObj();			//오브젝트의 삭제역할
+
 	void tileUpdate();		//타일을 보는 중점 좌표가 바뀌면 그 좌표에 맞게 새로 좌표를 잡아주는 함수
 
 	//선택  END

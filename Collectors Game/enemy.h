@@ -1,7 +1,12 @@
 #pragma once
 #include "gameNode.h"
+
+class tileMap;
 class enemy : public gameNode
 {
+private:
+	tileMap* _tm;
+	ID2D1BitmapRenderTarget* _Rt;
 protected:
 	INT64 _HP;
 	INT64 _MP;
@@ -25,15 +30,13 @@ public:
 	enemy();
 	~enemy();
 
-	virtual HRESULT	init();
+	virtual HRESULT	init(ID2D1BitmapRenderTarget* Rt);
 	virtual void	release();
 	virtual void	update();
-	virtual void	render();
+	virtual void	render(ID2D1BitmapRenderTarget* Rt);
 
 
-	void create(string strkey, float _centerX, float _centerY);
-	void setup();
-
+	
 
 
 	INT64 getHP() { return _HP; }
@@ -51,5 +54,8 @@ public:
 	float getZX() { return _zX; }
 	float getZY() { return _zY; }
 
+	void setTileMapAdressLink(tileMap* tm) { _tm = tm; }
+
+	ID2D1BitmapRenderTarget* getRt() { return _Rt; }
 };
 

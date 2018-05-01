@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "player.h"
 #include "tileMap.h"
+#include "enemyManager.h"
 
 
 player::player()
@@ -35,8 +36,6 @@ HRESULT player::init()
 	_reLimitFocus.y = _player.y;
 
 	_tm->setFocus(_player.userFocus);
-
-	test = false;
 	return S_OK;
 }
 void player::release()
@@ -45,18 +44,82 @@ void player::release()
 }
 void player::update() 
 {
+	this->keyInput();
+	this->focusSetting();
+}
 
-	bool isKeyDown =false ;
-	bool isKeyDown2=false ;
+
+
+
+void player::render() 
+{
+	
+	tempRender();
+	ID2D1Bitmap* tempbit;
+
+
+	Rt->BeginDraw();
+	Rt->Clear(ColorF(ColorF(0,0, 0, 0)));
+	D2DRectDraw(Rt, _renderRc);
+
+	//플레이어의 좌표를 알아보기 위하여 적어놓은것
+	wchar_t str[128];
+	swprintf_s(str, 128, L"%f", _player.x);
+	D2DWrite(str, Rt,0,0);
+	swprintf_s(str, 128, L"%f", _player.y);
+	D2DWrite(str, Rt, 0, 20);
+
+
+
+	Rt->EndDraw();
+
+	Rt->GetBitmap(&tempbit);
+
+	D2DRt->DrawBitmap(tempbit);
+}
+
+
+
+//이건 플레이어의 렉트와 타일이 잘 맞아떨어지고 있는가를 재보기 위한 랜더링 나중에 삭제예정 솔직히 플레이어에서 뭔 타일맵 랜더링중이야 안되 돌아갓!
+void player::tempRender()
+{
+	RECT tempRc;
+
+
+	_tm->getTileRt()->BeginDraw();
+	for (int i = 0; i < TILEX * TILEY; i++)
+	{
+		if (IntersectRect(&tempRc, &_tm->getTile()[i].rc, &_player.rc))
+		{
+			D2DRectDraw(_tm->getTileRt(), _tm->getTile()[i].rc.left,
+				_tm->getTile()[i].rc.top, _tm->getTile()[i].rc.right, _tm->getTile()[i].rc.bottom);
+
+
+			D2DRectDraw(_tm->getTileRt(), 0, 0, 32, 32);
+		}
+	}
+	_tm->getTileRt()->EndDraw();
+	ID2D1Bitmap* tempbit;
+	_tm->getTileRt()->GetBitmap(&tempbit);
+	D2DRt->DrawBitmap(tempbit);
+}
+
+
+void player::keyInput()
+{
+
+	isKeyDown = false;
+	isKeyDown2 = false;
+
 
 	if (KEYMANAGER->isStayKeyDown(VK_LEFT))
 	{
-		if (_player.x - TILESIZE/2 > 0)
+		if (_player.x - TILESIZE / 2 > 0)
 		{
 			_player.x -= 3;
 			_limitFocus.x -= 3;
 		}
-	
+
 		isKeyDown = true;
 	}
 	if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
@@ -86,108 +149,4 @@ void player::update()
 			isKeyDown2 = true;
 		}
 	}
-	_player.userFocus.x = _player.x / 32;
-	_player.userFocus.y = _player.y / 32;
-	 //_limitFocus.x = _player.x;
-	//limitFocus.y = _player.y;
-
-	
-	if (_limitFocus.x <= 200 && -WINSIZEX / 2 + _player.x + 200 >= 0)
-	{
-		_limitFocus.x = 200;
-		_reLimitFocus.x = -200;
-	}
-	else if (_limitFocus.x >= WINSIZEX - 200 && -WINSIZEX / 2 + _player.x - 200 <= TILEX * TILESIZE - WINSIZEX)
-	{
-		_limitFocus.x = WINSIZEX - 200;
-		_reLimitFocus.x = 200;
-	}
-	else
-	{
-		_reLimitFocus.x = 0;
-	}
-
-
-	if (_limitFocus.y <= 200 && -WINSIZEY / 2 + _player.y + 200 >= 0)
-	{
-		_limitFocus.y = 200;
-		_reLimitFocus.y = -200;
-	}
-	else if (_limitFocus.y >= WINSIZEX - 200 && -WINSIZEY / 2 + _player.y - 200 <= TILEX * TILESIZE - WINSIZEY)
-	{
-		_limitFocus.y = WINSIZEY - 200;
-		_reLimitFocus.y = 200;
-	}
-	else
-	{
-		_reLimitFocus.y = 0;
-	}
-
-	
-
-
-
-	if (_reLimitFocus.x != 0 && _reLimitFocus.y == 0 && isKeyDown)
-	{
-		if (-WINSIZEX / 2 + _player.x - _reLimitFocus.x >= 0 && -WINSIZEX / 2 + _player.x - _reLimitFocus.x <= TILEX * TILESIZE - WINSIZEX)
-		_tm->getTileRt()->SetTransform(Matrix3x2F::Translation(WINSIZEX / 2 - _player.x + _reLimitFocus.x, WINSIZEY / 2 - _player.y - (WINSIZEX / 2 - _limitFocus.y)));
-	}
-	else if (_reLimitFocus.y != 0 && _reLimitFocus.x == 0 && isKeyDown2)
-	{
-		if (-WINSIZEX / 2 + _player.y - _reLimitFocus.y >= 0 && -WINSIZEY / 2 + _player.y - _reLimitFocus.y <= 2400 )
-		_tm->getTileRt()->SetTransform(Matrix3x2F::Translation(WINSIZEX / 2 - _player.x - (WINSIZEX / 2 - _limitFocus.x), WINSIZEY / 2 - _player.y + _reLimitFocus.y));
-	}
-	else  if (_reLimitFocus.x != 0 && _reLimitFocus.y != 0)
-	{
-		_tm->getTileRt()->SetTransform(Matrix3x2F::Translation(WINSIZEX / 2 - _player.x + _reLimitFocus.x, WINSIZEY / 2 - _player.y + _reLimitFocus.y));
-	}
-	
-	
-
-	
-	_tm->setFocus(_player.userFocus);
-	_player.rc = RectMakeCenter(_player.x, _player.y,	32, 32);
-	_renderRc = RectMakeCenter(_limitFocus.x, _limitFocus.y, 32, 32);	
-}
-void player::render() 
-{
-	RECT tempRc;
-	
-
-	_tm->getTileRt()->BeginDraw();
-	for(int i = 0; i < TILEX * TILEY; i++)
-	{
-		if (IntersectRect(&tempRc, &_tm->getTile()[i].rc, &_player.rc))
-		{
-			D2DRectDraw(_tm->getTileRt(), _tm->getTile()[i].rc.left,
-				_tm->getTile()[i].rc.top, _tm->getTile()[i].rc.right, _tm->getTile()[i].rc.bottom);
-			
-			
-			D2DRectDraw(_tm->getTileRt(), 0,0,32,32);
-		}
-	}
-	_tm->getTileRt()->EndDraw();
-	ID2D1Bitmap* tempbit;
-	_tm->getTileRt()->GetBitmap(&tempbit);
-	D2DRt->DrawBitmap(tempbit);
-
-
-
-
-	Rt->BeginDraw();
-	Rt->Clear(ColorF(ColorF(0,0, 0, 0)));
-	D2DRectDraw(Rt, _renderRc);
-	wchar_t str[128];
-	swprintf_s(str, 128, L"%f", _player.x);
-	D2DWrite(str, Rt,0,0);
-	swprintf_s(str, 128, L"%f", _player.y);
-	D2DWrite(str, Rt, 0, 20);
-
-
-
-	Rt->EndDraw();
-
-	Rt->GetBitmap(&tempbit);
-
-	D2DRt->DrawBitmap(tempbit);
 }

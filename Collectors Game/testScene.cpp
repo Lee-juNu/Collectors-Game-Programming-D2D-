@@ -16,16 +16,24 @@ testScene::~testScene()
 
 HRESULT testScene::init()
 {
-	_em = new enemyManager;
-	_em->init();
+
 
 	_tm = new tileMap;
 	_tm->init();
+
+
+
 	_pl = new player;
 	_pl->setLinkAdressTileMap(_tm);
 	_pl->init();
 
-	D2DRt->CreateCompatibleRenderTarget(&BRt);
+
+	_em = new enemyManager;
+	_em->setTileMapAdressLink(_tm);
+	_em->setPlayerAdressLink(_pl);
+	_em->init();
+
+	_pl->setLinkAdressEnemy(_em);
 
 
 	return S_OK;
@@ -43,9 +51,9 @@ void testScene::update()
 void testScene::render()
 {
 
-	_em->render();
 	_tm->render();
 	_pl->render();
+	_em->render();
 
 	TIMEMANAGER->render(getMemDC());
 

@@ -6,7 +6,6 @@ IDWriteFactory*		wFactory = 0;
 IDWriteTextFormat* textFormat = 0;
 ID2D1SolidColorBrush*		D2DBrush;
 
-
 LPCWSTR _fontName = L"∏Ì¡∂";
 float	_size = 0;
 

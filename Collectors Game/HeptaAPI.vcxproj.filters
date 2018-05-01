@@ -55,11 +55,11 @@
     <Filter Include="playGround\Player">
       <UniqueIdentifier>{b575a018-ef0b-4946-80fc-71598e2895f2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="playGround\Map">
-      <UniqueIdentifier>{a63e573d-4523-46e4-a719-80f2b6076487}</UniqueIdentifier>
-    </Filter>
     <Filter Include="playGround\tileMap">
       <UniqueIdentifier>{b4ec7efb-928f-46e5-8c99-356a4bf8ab6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\Scene">
+      <UniqueIdentifier>{a63e573d-4523-46e4-a719-80f2b6076487}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -157,7 +157,7 @@
       <Filter>playGround\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="testScene.h">
-      <Filter>playGround\Map</Filter>
+      <Filter>playGround\Scene</Filter>
     </ClInclude>
     <ClInclude Include="player.h">
       <Filter>playGround\Player</Filter>
@@ -249,7 +249,7 @@
       <Filter>playGround\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="testScene.cpp">
-      <Filter>playGround\Map</Filter>
+      <Filter>playGround\Scene</Filter>
     </ClCompile>
     <ClCompile Include="player.cpp">
       <Filter>playGround\Player</Filter>
@@ -271,6 +271,9 @@
     </ClCompile>
     <ClCompile Include="imageManager+D2D.cpp">
       <Filter>2DGameFramework\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="_player+FocusSetting.cpp">
+      <Filter>playGround\Player</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

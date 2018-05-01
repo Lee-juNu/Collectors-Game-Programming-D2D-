@@ -50,7 +50,7 @@ void tileMap::tileSetting()
 		smSpeedSet();
 		break;
 	case SEL_DELOBJ:
-		this->tileSelect();
+		this->delObj();
 		break;
 
 	}
@@ -226,3 +226,18 @@ void tileMap::smSpeedSet()
 	}
 }
 
+
+void tileMap::delObj()
+{
+		for (int i = 0; i < TILEX * TILEY; i++)
+		{
+			if (PtInRect(&_tiles[i].rc, _ptMouse))
+			{
+				if (_currentSelect == SEL_DELOBJ)
+				{
+					_tiles[i].obj = OBJ_NONE;
+					break;
+				}
+			}
+		}
+}

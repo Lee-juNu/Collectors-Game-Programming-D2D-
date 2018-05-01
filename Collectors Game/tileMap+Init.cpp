@@ -76,4 +76,5 @@ void tileMap::tileInit()
 void tileMap::RtInit()
 {
 	D2DRt->CreateCompatibleRenderTarget(SizeF(2000,2000),&_rtTile);
+	_rtTile->SetTransform(Matrix3x2F::Translation(0, 0));
 }

@@ -10,19 +10,26 @@ struct tagPlayer
 	float x;			// 이 둘은 렉트를 그리고~~ 랜더RC를 그리고~~ 유저포커스를 보낼 기본 xy이시다.
 	float y;
 };
+class enemyManager;
 class tileMap;
 class player :	public gameNode
 {
 private:
 	tagPlayer _player;
 	tileMap* _tm;
-
+	enemyManager* _em;
 	ID2D1BitmapRenderTarget* Rt;
 
-	POINT	  _limitFocus;
-	POINT	  _reLimitFocus;
+	POINT	  _limitFocus;			//랜더범위를 제한해주는 포인트
+	POINT	  _reLimitFocus;		//배경의 범위를 제한해주는 포인트
+	POINT	  _bgFocus;				//배경의 범위를 계산해서 밖으로 보내기 위해 존재한다!
+
+
 	RECT	  _renderRc;
-	bool test;
+
+private:
+	bool isKeyDown = false;
+	bool isKeyDown2 = false;
 public:
 	player();
 	~player();
@@ -31,9 +38,22 @@ public:
 	virtual void release();
 	virtual void update();
 	virtual void render();
+	void tempRender();
+
+	void keyInput();
+	void focusSetting();
+
+
+
+
+
 
 
 	void setLinkAdressTileMap(tileMap* tm) { _tm = tm; }
+	void setLinkAdressEnemy(enemyManager* em) { _em = em; }
+	
+	
 	tagPlayer getPlayer() { return _player; }
+	POINT getBgFocus() { return _bgFocus; }
 };
 
