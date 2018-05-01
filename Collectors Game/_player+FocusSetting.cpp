@@ -13,6 +13,7 @@ void player::focusSetting()
 	_player.userFocus.x = _player.x / 32;
 	_player.userFocus.y = _player.y / 32;
 
+	//타일맵으로 유저가 몇번째 타일에 있는지를 보내주는 정보
 	_tm->setFocus(_player.userFocus);
 
 

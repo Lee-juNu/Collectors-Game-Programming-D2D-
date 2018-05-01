@@ -4,27 +4,6 @@
 
 
 
-void tileMap::save()
-{
-	string temps = ".//Map//teilMap.map";
-
-
-	HANDLE file;
-	DWORD write;
-
-	file = CreateFile(temps.c_str(), GENERIC_WRITE, NULL, NULL,
-		CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-
-
-	WriteFile(file, _tiles, sizeof(tagTile) * TILEX * TILEY, &write, NULL);
-	WriteFile(file, _smTile, sizeof(tagSampleTile) * SAMPLETILEX* SAMPLETILEY, &write, NULL);
-
-
-	CloseHandle(file);
-}
-
-
-
 void tileMap::load()
 {
 	HANDLE file;

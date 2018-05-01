@@ -45,12 +45,13 @@ void tileMap::imageInit()
 
 void tileMap::tileInit()
 {
+	//기본 타일 깔아주는건데 솔직히 필요없음 그럼지울까?
 	for (int i = 0; i < TILEX * TILEY; i++)
 	{
 		_tiles[i].rc = RectMake
 		(
-			25 + (TILESIZE * (i%TILEX)),
-			25 + (TILESIZE * (i / TILEX)),
+			(TILESIZE * (i%TILEX)),
+			(TILESIZE * (i / TILEX)),
 			TILESIZE, TILESIZE
 		);
 		_tiles[i].mapMode = MAP_GRASS;
@@ -66,7 +67,6 @@ void tileMap::tileInit()
 		_tiles[i].gifFrame = 0;
 		_tiles[i].gifCount = 0;
 		_tiles[i].gifSpeed = _currentSpeed;
-
 	}
 }
 
@@ -75,6 +75,7 @@ void tileMap::tileInit()
 
 void tileMap::RtInit()
 {
+	//D2D랜더타겟에서 쪼개줍시다.
 	D2DRt->CreateCompatibleRenderTarget(SizeF(2000,2000),&_rtTile);
 	_rtTile->SetTransform(Matrix3x2F::Translation(0, 0));
 }

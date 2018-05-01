@@ -17,23 +17,20 @@ player::~player()
 
 HRESULT player::init()
 {
+
 	D2DRt->CreateCompatibleRenderTarget(&Rt);
+
+
 	_player.x= WINSIZEX/2;
 	_player.y= WINSIZEY/2;
-
-
 	_player.userFocus.x = _player.x / 32;
 	_player.userFocus.y = _player.y / 32;
-
 	_player.rc = RectMakeCenter(_player.x, _player.y,
 		32, 32);
 
-	_limitFocus.x= _player.x;
-	_limitFocus.y= _player.y;
 
-
-	_reLimitFocus.x = _player.x;
-	_reLimitFocus.y = _player.y;
+	_reLimitFocus.x = _limitFocus.x = _player.x;
+	_reLimitFocus.y = _limitFocus.y = _player.y;
 
 	_tm->setFocus(_player.userFocus);
 	return S_OK;
@@ -108,10 +105,15 @@ void player::tempRender()
 void player::keyInput()
 {
 
+
+	//기본적으로 업데이트 될때마다 키입력 불값을 초기화
 	isKeyDown = false;
 	isKeyDown2 = false;
 
 
+	
+	//키입력을 받으면 좌표조정과 함께
+	//해당 불값을 true로 바꿔준다
 	if (KEYMANAGER->isStayKeyDown(VK_LEFT))
 	{
 		if (_player.x - TILESIZE / 2 > 0)

@@ -8,6 +8,7 @@
 
 void tileMap::tileUpdate()
 {
+	//GIF이미지를 계속 반복시켜주기 위하여 있다.
 	_frameCount++;
 	for (int i = 0; i < TILEX * TILEY; i++)
 	{
